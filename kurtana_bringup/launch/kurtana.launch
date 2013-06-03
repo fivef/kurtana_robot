@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="katana_type" type="string" value="katana_450_6m90a" />
+  <param name="katana_type" type="string" value="katana_300_6m180" />
 
   <!-- load kurtana urdf -->
   <include file="$(find kurt_description)/launch/upload_kurtana.launch" />
@@ -10,24 +10,36 @@
 
   <!-- katana node -->
   <node pkg="katana" type="katana" name="katana" output="screen">
-    <param name="config_file_path" type="string" value="$(find kni)/KNI_4.3.0/configfiles450/katana6M90A_G.cfg" />
-    <!-- <param name="simulation" type="bool" value="true" /> -->
+  	<param name="use_serial" type="bool" value="true" />
+  	
+  	    <!-- for /dev/ttyS0: -->
+    <param name="serial_port" type="int" value="0" />
+  
+    <param name="config_file_path" type="string" value="$(find kni)/KNI_4.3.0/configfiles300/katana6M180.cfg" />
+    
+    <!-- Is Simulation? -->
+    <param name="simulation" type="bool" value="false" />
 
     <!-- let the katana node publish on katana_joint_states -->
     <remap from="joint_states" to="katana_joint_states" />
+    
     <!-- for katana_gripper_grasp_controller -->
     <remap from="posture_action_name" to="/gripper_grasp_posture_controller" />
     <remap from="grasp_query_name" to="/gripper_grasp_status" />
+  </node>
+  
+  <node pkg="bioloidPTU" name="bioloidPTU" type="bioloidPTU.py" output="screen">
   </node>
 
   <!-- joint_commander: use dynamic_reconfigure to adjust the rack configuration manually -->
   <!-- node publishes on kurtana_joint_states -->
   <node name="joint_commander" pkg="kurtana_pole_joint_commander" type="joint_commander">
-    <param name="kurtana_stretch_joint" type="double" value="0.422" />
+    <param name="kurtana_stretch_joint" type="double" value="0.135" />
     <param name="kurtana_roll_joint" type="double" value="0.02" />
-    <param name="kurtana_pitch_joint" type="double" value="1.29" />
+    <param name="kurtana_pitch_joint" type="double" value="0.85" />
 
     <param name="publish_joint_states" type="bool" value="True" />
+    <param name="publish_controller_commands" type="bool" value="True" />
 
     <remap from="joint_states" to="kurtana_joint_states" />
   </node>
@@ -50,5 +62,9 @@
     <arg name="publish_tf" value="false" />
     <arg name="depth_registration" value="true" />
   </include>
+  
+
+  
+  
 </launch>
 
