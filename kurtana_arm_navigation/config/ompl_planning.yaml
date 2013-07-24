@@ -45,7 +45,7 @@ arm_cartesian:
     - SBLkConfig1
     - LBKPIECEkConfig1
   kinematics_solver: arm_kinematics_constraint_aware/KDLArmKinematicsPlugin
-  tip_name: katana_motor5_wrist_roll_link
+  tip_name: katana_gripper_link
   root_name: katana_base_link
   projection_evaluator: joint_state
   longest_valid_segment_fraction: 0.001
