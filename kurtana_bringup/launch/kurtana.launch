@@ -3,7 +3,7 @@
 
    <arg name="kinect_camera_name" default="kinect" />
    <arg name="stereo" default="false" />
-   <arg name="flatten_table" default="false"/>
+   <arg name="flatten_table" default="true"/>
 
   <param name="katana_type" type="string" value="katana_300_6m180" />
 
