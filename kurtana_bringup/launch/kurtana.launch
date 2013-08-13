@@ -34,15 +34,15 @@
   </node>
 
   
-  <!--<node pkg="bioloidPTU" name="bioloidPTU" type="bioloidPTU.py" output="screen">
-  </node>-->
+  <node pkg="bioloidPTU" name="bioloidPTU" type="bioloidPTU.py" output="screen">
+    <param name="serial_port" type="string" value="/dev/ttyUSB1" />
+  </node>
 
   <!-- joint_commander: use dynamic_reconfigure to adjust the rack configuration manually -->
   <!-- node publishes on kurtana_joint_states -->
   <node name="joint_commander" pkg="kurtana_pole_joint_commander" type="joint_commander">
-    <param name="kurtana_stretch_joint" type="double" value="0.135" />
     <param name="kurtana_roll_joint" type="double" value="0.02" />
-    <param name="kurtana_pitch_joint" type="double" value="0.85" />
+    <param name="kurtana_pitch_joint" type="double" value="0.0" />
 
     <param name="publish_joint_states" type="bool" value="True" />
     <param name="publish_controller_commands" type="bool" value="True" />
