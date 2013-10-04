@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+
+  <!-- ******************** -->
+  <!-- *** TODO: roll should be yaw here *** -->
+  <!-- ******************** -->
+
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+  xmlns:xacro="http://ros.org/wiki/xacro"
+  name="kurtana_rack">
+
+  <include filename="$(find kurtana_bringup)/urdf/common.xacro" />
+
+  <property name="rackplate_length" value="0.47" />
+  <property name="rackplate_width" value="0.368" />
+  <property name="rackplate_height" value="0.023" />
+  <property name="rackplate_mass" value="0.500" />
+  <property name="baseplate_length" value="0.47" />
+  <property name="baseplate_width" value="0.368" />
+  <property name="baseplate_height" value="0.006" />
+  <property name="baseplate_mass" value="0.500" />
+  <property name="katana_baseplate_width" value="0.156" />
+  <property name="katana_baseplate_height" value="0.012" />
+  <property name="katana_baseplate_mass" value="0.4" />
+ 
+  <property name="rackgap" value="0.055" />
+  <property name="pole_length" value="0.695"/>
+  <property name="pole_x_offset" value="-0.165"/>
+  <property name="pole_mass" value="3.0"/>
+
+  <property name="square_bar_width" value="0.03"/>
+  <property name="horizontal_square_bar_length" value="0.113"/>
+  <property name="horizontal_square_bar_mass" value="0.1"/> 
+  <property name="vertical_square_bar_length" value="0.0875"/>
+  <property name="vertical_square_bar_mass" value="0.1"/>
+  <property name="servo_width" value="0.05"/>
+  <property name="servo_length" value="0.032"/>
+  <property name="servo_height" value="0.068"/>
+  <property name="servo_axis_offset" value="0.008"/>
+  <property name="servo_mass" value="0.15"/>
+  <property name="servo_roll_lower_limit" value="-0.5"/>
+  <property name="servo_roll_upper_limit" value="0.5"/>
+  <property name="servo_pitch_lower_limit" value="0.8"/>
+  <property name="servo_pitch_upper_limit" value="1.2"/>
+  <property name="pitch_servo_movable_part_height" value="0.035"/>
+  <property name="kinect_mounting_plate_width" value="0.17" />
+  <property name="kinect_mounting_plate_length" value="0.045" />
+  <property name="kinect_mounting_plate_height" value="0.007" />
+  <property name="kinect_mounting_plate_mass" value="0.05" />
+  
+  <property name="microphone_length" value="0.24" />
+  <property name="microphone_radius" value="0.025" />
+  <property name="microphone_mass" value="0.3" />
+  <property name="microphone_x_offset" value="0.06" />
+  <property name="microphone_y_offset" value="-0.055" />
+  <property name="microphone_z_offset" value="0.035" />
+ 
+  
+  <property name="poletop_radius" value="0.025"/>
+  <property name="poletop_length" value="0.04"/>
+  <property name="poletop_mass" value="0.1"/>
+
+  <!-- ******************** -->
+  <!-- *** KURTana Rack *** -->
+  <!-- ******************** -->
+
+  <!-- baseplate = upper plate -->
+
+  <link name="kurtana_baseplate_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${baseplate_length} ${baseplate_width} ${baseplate_height}" />
+      </geometry>
+
+      <material name="grey">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${baseplate_length} ${baseplate_width} ${baseplate_height}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${baseplate_length}" y="${baseplate_width}" z="${baseplate_height}" mass="${baseplate_mass}" />
+  </link>
+  
+  <joint name="katana_baseplate_joint" type="fixed">
+    <parent link="kurtana_baseplate_link"/>
+    <child link="katana_baseplate_link"/>
+    <origin xyz="0.05 0 ${baseplate_height/2 + katana_baseplate_height/2}"/>
+  </joint>
+
+  <link name="katana_baseplate_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${katana_baseplate_width} ${katana_baseplate_width} ${katana_baseplate_height}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${katana_baseplate_width} ${katana_baseplate_width} ${katana_baseplate_height}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${katana_baseplate_width}" y="${katana_baseplate_width}" z="${katana_baseplate_height}" mass="${katana_baseplate_mass}" />
+  </link>
+
+  <!-- pole = lower, fixed, hollow pole -->
+  <joint name="kurtana_pole_joint" type="fixed">
+    <parent link="kurtana_baseplate_link"/>
+    <child link="kurtana_pole_link"/>
+    <origin xyz="${pole_x_offset} 0 ${pole_length/2}"/>
+  </joint>
+
+  <link name="kurtana_pole_link">
+   
+     <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${square_bar_width} ${square_bar_width} ${pole_length}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${square_bar_width} ${square_bar_width} ${pole_length}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${square_bar_width}" y="${square_bar_width}" z="${pole_length}" mass="${pole_mass}" />
+  
+  </link>
+  
+  <joint name="kurtana_microphone_joint" type="fixed">
+    <parent link="kurtana_pole_link"/>
+    <child link="kurtana_microphone_link"/>
+    <origin xyz="${microphone_x_offset} ${microphone_y_offset} ${pole_length/2 + microphone_z_offset}"/>
+  </joint>
+  
+  
+  <link name="kurtana_microphone_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0" />
+      <geometry>
+        <cylinder length="${microphone_length}" radius="${microphone_radius}" />
+      </geometry>
+
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 ${M_PI/2} 0" />
+      <geometry>
+        <cylinder length="${microphone_length}" radius="${microphone_radius}" />
+      </geometry>
+    </collision>
+    <xacro:cylinder_inertial radius="${microphone_radius}" length="${microphone_length}"  mass="${microphone_mass}" />
+  </link>
+
+  <joint name="kurtana_horizontal_square_bar_joint" type="fixed">
+    <parent link="kurtana_pole_link"/>
+    <child link="kurtana_horizontal_square_bar_link"/>
+    <origin xyz="${square_bar_width/2 + horizontal_square_bar_length/2} 0 ${pole_length/2 - square_bar_width/2}"/>
+  </joint>
+  
+  
+  <link name="kurtana_horizontal_square_bar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${horizontal_square_bar_length} ${square_bar_width} ${square_bar_width}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${horizontal_square_bar_length} ${square_bar_width} ${square_bar_width}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${horizontal_square_bar_length}" y="${square_bar_width}" z="${square_bar_width}" mass="${horizontal_square_bar_mass}" />
+  </link>
+  
+  <joint name="kurtana_vertical_square_bar_joint" type="fixed">
+    <parent link="kurtana_horizontal_square_bar_link"/>
+    <child link="kurtana_vertical_square_bar_link"/>
+    <origin xyz="${horizontal_square_bar_length/2 - square_bar_width/2} 0 ${vertical_square_bar_length/2 + square_bar_width/2}"/>
+  </joint>
+  
+  
+  <link name="kurtana_vertical_square_bar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${square_bar_width} ${square_bar_width} ${vertical_square_bar_length}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${square_bar_width} ${square_bar_width} ${vertical_square_bar_length}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${square_bar_width}" y="${square_bar_width}" z="${vertical_square_bar_length}" mass="${vertical_square_bar_mass}" />
+  </link>
+  
+  
+  <joint name="kurtana_roll_servo_joint" type="fixed">
+    <parent link="kurtana_vertical_square_bar_link"/>
+    <child link="kurtana_roll_servo_link"/>
+    <origin xyz="${servo_height/2 + square_bar_width/2} 0 ${vertical_square_bar_length/2 - servo_width/2}"/>
+  </joint>
+  
+  
+  <link name="kurtana_roll_servo_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_height} ${servo_length} ${servo_width}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_height} ${servo_length} ${servo_width}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${servo_height}" y="${servo_length}" z="${servo_width}" mass="${servo_mass}" />
+  </link>
+  
+  
+  <joint name="kurtana_roll_joint" type="revolute">
+    <parent link="kurtana_roll_servo_link"/>
+    <child link="kurtana_pitch_servo_link"/>
+    <origin xyz="${servo_axis_offset} 0 ${servo_width/2 + servo_height/2}"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="${servo_roll_lower_limit}" upper="${servo_roll_upper_limit}" velocity="2.0"/>
+  </joint>
+  
+  
+  <link name="kurtana_pitch_servo_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_length} ${servo_width} ${servo_height}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_length} ${servo_width} ${servo_height}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${servo_length}" y="${servo_width}" z="${servo_height}" mass="${servo_mass}" />
+  </link>
+
+  <joint name="kurtana_pitch_joint" type="revolute">
+    <parent link="kurtana_pitch_servo_link" />
+    <child link="kurtana_pitch_servo_movable_part_link" />
+    <origin xyz="0 0 ${servo_axis_offset}" rpy="0 0.045 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="1000.0" lower="${servo_pitch_lower_limit}" upper="${servo_pitch_upper_limit}" velocity="2.0"/>
+  </joint>
+  
+  
+  
+  <link name="kurtana_pitch_servo_movable_part_link">
+  
+  	 <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_length} ${servo_width} ${pitch_servo_movable_part_height}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${servo_length} ${servo_width} ${pitch_servo_movable_part_height}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${servo_length}" y="${servo_width}" z="${pitch_servo_movable_part_height}" mass="${servo_mass}" />  
+   
+  </link>
+  
+  <joint name="kurtana_kinect_mounting_plate_joint" type="fixed">
+    <parent link="kurtana_pitch_servo_movable_part_link"/>
+    <child link="kurtana_kinect_mounting_plate_link"/>
+    <origin xyz="0 0 ${pitch_servo_movable_part_height/2 + kinect_mounting_plate_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="kurtana_kinect_mounting_plate_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${kinect_mounting_plate_length} ${kinect_mounting_plate_width} ${kinect_mounting_plate_height}" />
+      </geometry>
+
+      <material name="grey" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="${kinect_mounting_plate_length} ${kinect_mounting_plate_width} ${kinect_mounting_plate_height}" />
+      </geometry>
+    </collision>
+    <xacro:box_inertial x="${kinect_mounting_plate_length}" y="${kinect_mounting_plate_width}" z="${kinect_mounting_plate_height}" mass="${kinect_mounting_plate_mass}" />
+  </link>
+
+  <!-- ******************** -->
+  <!-- *** Gazebo stuff *** -->
+  <!-- ******************** -->
+
+  <!-- transmissions are required by the controller manager (here: for simulation in gazebo) -->
+
+  <xacro:macro name="kurtana_pole_transmission" params="name">
+    <transmission name="${name}_trans" type="pr2_mechanism_model/SimpleTransmission">
+      <actuator name="${name}_motor" />
+      <joint name="${name}_joint" />
+      <mechanicalReduction>1</mechanicalReduction>
+      <motorTorqueConstant>1</motorTorqueConstant>
+    </transmission>
+  </xacro:macro>
+
+  <xacro:kurtana_pole_transmission name="kurtana_stretch" />
+  <xacro:kurtana_pole_transmission name="kurtana_roll" />
+  <xacro:kurtana_pole_transmission name="kurtana_pitch" />
+  
+  <gazebo reference="kurtana_rackplate_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+  
+  <gazebo reference="kurtana_baseplate_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+  
+  <gazebo reference="kurtana_pole_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+  
+  <gazebo reference="kurtana_innerpole_stretch_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+  
+  <gazebo reference="kurtana_poletop_roll_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+  
+  <gazebo reference="kurtana_pitchpole_link">
+    <material value="PR2/Grey" />
+  </gazebo>
+</robot>

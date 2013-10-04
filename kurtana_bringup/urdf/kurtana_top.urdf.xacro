@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+  xmlns:xacro="http://ros.org/wiki/xacro"
+  name="kurtana">
+
+  <property name="M_PI" value="3.1415926535897931" />
+
+  <!-- ******************** -->
+  <!-- *** KURTana Rack *** -->
+  <!-- ******************** -->
+  
+  <include filename="$(find kurtana_bringup)/urdf/kurtana_rack.urdf.xacro" />
+
+ <!-- these offsets shouldn't be used if the Kinect is on a PTU-->
+  <property name="kinect_x_offset" value="0.0" />
+  <property name="kinect_y_offset" value="0.0" />
+  <property name="kinect_z_offset" value="0.0" />
+
+
+  <!-- ************************ -->
+  <!-- *** Microsoft Kinect *** -->
+  <!-- ************************ -->
+  
+  <include filename="$(find kurtana_bringup)/urdf/kinect.urdf.xacro" />
+  <xacro:kinect camera="kinect" />
+
+  <joint name="kurtana_kinect_joint" type="fixed">
+    <parent link="kurtana_kinect_mounting_plate_link" />
+    <child  link="kinect_link" />
+    <origin xyz="${kinect_x_offset} ${kinect_y_offset} ${kinect_z_offset}" rpy="0 0 0"/>
+  </joint>
+  
+
+  <!-- **************************** -->
+  <!-- *** Neuronics Katana Arm *** -->
+  <!-- **************************** -->
+  
+ <include filename="$(find katana_description)/urdf/katana_300_6m180.urdf.xacro" />
+
+  <joint name="kurtana_baseplate_katana_baseplate_joint" type="fixed">
+    <parent link="katana_baseplate_link" />
+    <child link="katana_base_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  
+  <!-- pattern for Kinect calibration -->
+   <link name="katana_pattern"></link>
+  <joint name="katana_pattern_joint" type="fixed">
+    <parent link="katana_motor4_lift_link"/>
+    <child  link="katana_pattern" />
+    <origin xyz=".075 -.035 0.00" rpy="1.571 -1.571 0.151"/>
+  </joint>
+
+
+</robot>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<robot
+  xmlns:xacro="http://ros.org/wiki/xacro"
+  name="kurtana">
+  
+  <xacro:property name="top_y_offset" value="0.00" />
+  <xacro:property name="base_z_offset" value="0.20" /> <!-- distance from base_link to top of cover surface -->
+
+  <include filename="$(find p2os_urdf)/defs/pioneer3dx.xacro" />
+  <include filename="$(find kurtana_bringup)/urdf/kurtana_top.urdf.xacro" />
+
+
+  <joint name="top_base_joint" type="fixed">
+    <parent link="top_plate" />
+    <child link="kurtana_baseplate_link" />
+    <origin xyz="0 ${top_y_offset} ${base_z_offset + rackplate_height/2}" />
+  </joint>
+
+
+</robot>
