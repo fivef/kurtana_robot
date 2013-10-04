@@ -14,10 +14,9 @@
   
   <include filename="$(find kurtana_bringup)/urdf/kurtana_rack.urdf.xacro" />
 
- <!-- these offsets shouldn't be used if the Kinect is on a PTU-->
-  <property name="kinect_x_offset" value="0.0" />
+  <property name="kinect_x_offset" value="0.03" />
   <property name="kinect_y_offset" value="0.0" />
-  <property name="kinect_z_offset" value="0.0" />
+  <property name="kinect_z_offset" value="0.02" />
 
 
   <!-- ************************ -->
