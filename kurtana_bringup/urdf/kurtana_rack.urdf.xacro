@@ -4,9 +4,7 @@
   <!-- *** TODO: roll should be yaw here *** -->
   <!-- ******************** -->
 
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+<robot 
   xmlns:xacro="http://ros.org/wiki/xacro"
   name="kurtana_rack">
 
@@ -245,6 +243,7 @@
     <child link="kurtana_pitch_servo_link"/>
     <origin xyz="${servo_axis_offset} 0 ${servo_width/2 + servo_height/2}"/>
     <axis xyz="0 0 1"/>
+    
     <limit effort="1000.0" lower="${servo_roll_lower_limit}" upper="${servo_roll_upper_limit}" velocity="2.0"/>
   </joint>
   
@@ -272,6 +271,7 @@
     <child link="kurtana_pitch_servo_movable_part_link" />
     <origin xyz="0 0 ${servo_axis_offset}" rpy="0 0.045 0"/>
     <axis xyz="0 1 0"/>
+    
     <limit effort="1000.0" lower="${servo_pitch_lower_limit}" upper="${servo_pitch_upper_limit}" velocity="2.0"/>
   </joint>
   
@@ -321,24 +321,7 @@
     <xacro:box_inertial x="${kinect_mounting_plate_length}" y="${kinect_mounting_plate_width}" z="${kinect_mounting_plate_height}" mass="${kinect_mounting_plate_mass}" />
   </link>
 
-  <!-- ******************** -->
-  <!-- *** Gazebo stuff *** -->
-  <!-- ******************** -->
 
-  <!-- transmissions are required by the controller manager (here: for simulation in gazebo) -->
-
-  <xacro:macro name="kurtana_pole_transmission" params="name">
-    <transmission name="${name}_trans" type="pr2_mechanism_model/SimpleTransmission">
-      <actuator name="${name}_motor" />
-      <joint name="${name}_joint" />
-      <mechanicalReduction>1</mechanicalReduction>
-      <motorTorqueConstant>1</motorTorqueConstant>
-    </transmission>
-  </xacro:macro>
-
-  <xacro:kurtana_pole_transmission name="kurtana_stretch" />
-  <xacro:kurtana_pole_transmission name="kurtana_roll" />
-  <xacro:kurtana_pole_transmission name="kurtana_pitch" />
   
   <gazebo reference="kurtana_rackplate_link">
     <material value="PR2/Grey" />

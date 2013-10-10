@@ -4,14 +4,42 @@
   name="kurtana">
   
   <xacro:property name="top_y_offset" value="0.00" />
-  <xacro:property name="base_z_offset" value="0.20" /> <!-- distance from base_link to top of cover surface -->
+  <xacro:property name="base_z_offset" value="0.60" /> <!-- distance from base_link to top of cover surface -->
 
-  <include filename="$(find p2os_urdf)/defs/pioneer3dx.xacro" />
+  
   <include filename="$(find kurtana_bringup)/urdf/kurtana_top.urdf.xacro" />
 
+	<link name="base_link">
 
-  <joint name="top_base_joint" type="fixed">
-    <parent link="top_plate" />
+		<visual name="base_visual">
+			<origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+			<geometry name="pioneer_geom">
+				<mesh filename="package://p2os_urdf/meshes/p3dx_meshes/chassis.stl"/>
+			</geometry>
+			<material name="ChassisRed">
+				<color rgba="0.851 0.0 0.0 1.0"/>
+			</material>
+		</visual>
+
+    <inertial>
+			<mass value="500" />
+			<inertia ixx="500"  ixy="0"  ixz="0" iyy="500" iyz="0" izz="500" />
+			<origin/>
+		</inertial>
+
+	<collision>
+			<origin xyz="-0.045 0 0.148" rpy="0 0 0"/>
+			<geometry name="pioneer_geom">
+				<mesh filename="package://p2os_urdf/meshes/p3dx_meshes/chassis.stl"/>
+			</geometry>
+	</collision>
+	</link>
+	<gazebo reference="base_link">
+		<material value="Gazebo/Red"/>
+	</gazebo>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_link" />
     <child link="kurtana_baseplate_link" />
     <origin xyz="0 ${top_y_offset} ${base_z_offset + rackplate_height/2}" />
   </joint>

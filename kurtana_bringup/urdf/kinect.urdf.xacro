@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+<robot 
   xmlns:xacro="http://ros.org/wiki/xacro"
   name="${camera}">
 
   <include filename="$(find kurtana_bringup)/urdf/common.xacro" />
-  <include filename="$(find kurtana_bringup)/urdf/openni.gazebo.xacro" />
+
 
   <xacro:macro name="kinect" params="camera">
 
@@ -56,8 +54,6 @@
       </inertial>
     </link>
 
-    <!-- OpenNI IR sensor Gazebo extensions -->
-    <xacro:openni_ir_gazebo_v0 link_name="${camera}_depth_frame" frame_name="${camera}_depth_optical_frame" camera_name="${camera}" />
 
     <joint name="${camera}_rgb_joint" type="fixed">
       <origin xyz="0 -0.005 0" rpy="0 0 0" />
@@ -88,8 +84,6 @@
       </inertial>
     </link>
 
-    <!-- OpenNI RGB sensor Gazebo extensions -->
-    <xacro:openni_rgb_gazebo_v0 link_name="${camera}_rgb_frame" frame_name="${camera}_rgb_optical_frame" camera_name="${camera}" />
 
   </xacro:macro>
 </robot>

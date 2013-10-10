@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 
-<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
-  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
-  xmlns:xacro="http://ros.org/wiki/xacro"
+<robot xmlns:xacro="http://ros.org/wiki/xacro"
   name="kurtana">
 
   <property name="M_PI" value="3.1415926535897931" />
@@ -34,23 +31,15 @@
   
 
   <!-- **************************** -->
-  <!-- *** Neuronics Katana Arm *** -->
+  <!-- *** Jaco Arm *** -->
   <!-- **************************** -->
   
- <include filename="$(find katana_description)/urdf/katana_300_6m180.urdf.xacro" />
+ <include filename="$(find jaco_description)/urdf/gazebo/jaco.urdf.xacro" />
 
   <joint name="kurtana_baseplate_katana_baseplate_joint" type="fixed">
     <parent link="katana_baseplate_link" />
-    <child link="katana_base_link" />
+    <child link="jaco_base_link" />
     <origin xyz="0 0 0" rpy="0 0 0" />
-  </joint>
-  
-  <!-- pattern for Kinect calibration -->
-   <link name="katana_pattern"></link>
-  <joint name="katana_pattern_joint" type="fixed">
-    <parent link="katana_motor4_lift_link"/>
-    <child  link="katana_pattern" />
-    <origin xyz=".075 -.035 0.00" rpy="1.571 -1.571 0.151"/>
   </joint>
 
 
