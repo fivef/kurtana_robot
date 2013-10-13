@@ -1,0 +1,15 @@
+hand_description:
+  arm:
+    hand_frame: jaco_gripper_tool_frame
+    robot_frame: base_link
+    attached_objects_name: attached
+    attach_link: jaco_finger_link_1
+    hand_group_name: gripper
+    arm_group_name: arm
+    #hand_database_name: ROBOTIQ
+    hand_joints: [jaco_finger_joint_1,jaco_finger_joint_2,jaco_finger_joint_3]
+    hand_touch_links: [jaco_link_6,jaco_finger_link_1,jaco_finger_link_2,jaco_finger_link_3]
+    #hand_fingertip_links: [finger_1]
+    #hand_fingertip_links: [finger_1,finger_2,finger_3]
+    hand_approach_direction: [1.0,0.0,0.0]
+    arm_joints: [jaco_joint_1,jaco_joint_2,jaco_joint_3,jaco_joint_4,jaco_joint_5,jaco_joint_6]

@@ -23,8 +23,11 @@
   <property name="katana_baseplate_mass" value="0.4" />
  
   <property name="rackgap" value="0.055" />
-  <property name="pole_length" value="0.695"/>
-  <property name="pole_x_offset" value="-0.165"/>
+  <!-- Kate <property name="pole_length" value="0.695"/> 
+            <property name="pole_x_offset" value="-0.165"/>
+  -->
+  <property name="pole_length" value="1"/>
+  <property name="pole_x_offset" value="-0.25"/>
   <property name="pole_mass" value="3.0"/>
 
   <property name="square_bar_width" value="0.03"/>

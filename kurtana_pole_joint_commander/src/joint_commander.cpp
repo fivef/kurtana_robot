@@ -33,7 +33,7 @@ JointCommander::JointCommander()
   f = boost::bind(&kurtana_pole_joint_commander::JointCommander::update_config, this, _1, _2);
   dynamic_reconfigure_server_.setCallback(f);
 
-  stretch_controller_pub_ = nh_.advertise<std_msgs::Float64>("kurtana_stretch_joint_controller/command", 1);
+  //stretch_controller_pub_ = nh_.advertise<std_msgs::Float64>("kurtana_stretch_joint_controller/command", 1);
   roll_controller_pub_ = nh_.advertise<std_msgs::Float64>("kurtana_roll_joint_controller/command", 1);
   pitch_controller_pub_ = nh_.advertise<std_msgs::Float64>("kurtana_pitch_joint_controller/command", 1);
   joint_states_pub_ = nh_.advertise<sensor_msgs::JointState>("joint_states", 100);
@@ -54,8 +54,8 @@ void JointCommander::loop_once()
   {
     std_msgs::Float64 control_msg;
 
-    control_msg.data = config_.kurtana_stretch_joint;
-    stretch_controller_pub_.publish(control_msg);
+    //control_msg.data = config_.kurtana_stretch_joint;
+    //stretch_controller_pub_.publish(control_msg);
     control_msg.data = config_.kurtana_roll_joint;
     roll_controller_pub_.publish(control_msg);
     control_msg.data = config_.kurtana_pitch_joint;
@@ -66,10 +66,10 @@ void JointCommander::loop_once()
   {
     sensor_msgs::JointState joint_state_msg;
     joint_state_msg.header.stamp = ros::Time::now();
-    joint_state_msg.name.push_back("kurtana_stretch_joint");
+    //joint_state_msg.name.push_back("kurtana_stretch_joint");
     joint_state_msg.name.push_back("kurtana_roll_joint");
     joint_state_msg.name.push_back("kurtana_pitch_joint");
-    joint_state_msg.position.push_back(config_.kurtana_stretch_joint);
+    //joint_state_msg.position.push_back(config_.kurtana_stretch_joint);
     joint_state_msg.position.push_back(config_.kurtana_roll_joint);
     joint_state_msg.position.push_back(config_.kurtana_pitch_joint);
     joint_states_pub_.publish(joint_state_msg);
