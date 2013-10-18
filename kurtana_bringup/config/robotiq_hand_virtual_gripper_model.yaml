@@ -43,12 +43,18 @@ grasp_joint_efforts:
 
 #<name of tool frame> has x towards the single finger (model -y), z out of the palm (model x), y to the side (model -z)
 #and origin 5.113 cm above the palm, 14.113 cm above the virtual model origin  (model +x)
-actual_wrist_frame_in_model_frame: [[1.0,0.0,0.0,0.0],[0.0,1.0,0.0,0.0],[0,0.0,1.0,0.0],[0,0.0,0.0,1.0]]
+actual_wrist_frame_in_model_frame: [[1.0,0.0,0.0,0.0],[0.0,1.0,0.0,0.0],[0,0.0,1.0,0.0],[0.10,0.0,0.0,1.0]]
 
 default_pregrasp_dist: 0.10
 min_good_grasp_points: 15
 wrist_to_fingertip_dist: 0.18
 wrist_to_palm_dist: 0.1
 gripper_opening: 0.165
-height_good_for_side_grasps: 0.11
+height_good_for_side_grasps: 0.10
 side_grasp_start_height: 0.05
+
+#how far to move the gripper to the side with each step when searching for grasps
+side_step: 0.02
+
+#how far to move the palm inward with each step when searching for grasps
+palm_step: 0.005
