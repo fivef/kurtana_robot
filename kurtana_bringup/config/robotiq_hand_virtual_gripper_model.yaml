@@ -45,7 +45,7 @@ grasp_joint_efforts:
 #and origin 5.113 cm above the palm, 14.113 cm above the virtual model origin  (model +x)
 actual_wrist_frame_in_model_frame: [[1.0,0.0,0.0,0.0],[0.0,1.0,0.0,0.0],[0,0.0,1.0,0.0],[0.10,0.0,0.0,1.0]]
 
-default_pregrasp_dist: 0.10
+default_pregrasp_dist: 0.15
 min_good_grasp_points: 15
 wrist_to_fingertip_dist: 0.18
 wrist_to_palm_dist: 0.1
